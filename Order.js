@@ -3,22 +3,35 @@ export class Order {
       this.OrderState = {
         WELCOMING: () => {
           let aReturn = [];
-          this.stateCur = this.OrderState.RESERVING;
-          aReturn.push("Welcome to Rich's Acton Rapid Test.");
-          aReturn.push("Would you like to reserve a rapid test kit?");
+          this.stateCur = this.OrderState.RESERVINGPIZZA;
+          aReturn.push("Welcome to Eddie's Pizzaria. Our menu today is pepperoni, veggie, or canadian pizza. What kind of pizza would you like?");
           return aReturn;
         },
-        RESERVING: (sInput) => {
+        RESERVINGPIZZA: (sInput) => {
+          let aReturn = [];
+          this.stateCur = this.OrderState.ORDERINGSIDE;
+          if (sInput.toLowerCase().startsWith('c')) {
+            aReturn.push(`Canadian pizza! Excellent choice. Would you like to add wings to that?`);
+          } else if (sInput.toLowerCase().startsWith('p')) {
+            aReturn.push(`Pepperoni pizza! Excellent choice. Would you like to add wings to that?`);
+          } else if (sInput.toLowerCase().startsWith('v')) {
+            aReturn.push(`Veggie pizza! Excellent choice. Would you like to add wings to that?`);
+          } else {
+            aReturn.push("Sorry we didn't quite get that.");
+            aReturn.push("Please refresh and try again.");
+          }
+          return aReturn;
+        },
+        ORDERINGSIDE: (sInput) => {
           let aReturn = [];
           this.isDone = true;
           if (sInput.toLowerCase().startsWith('y')) {
-            aReturn.push(`Your rapid test is reserved under the phone number ${this.sFrom}`);
-            let d = new Date();
-            d.setMinutes(d.getMinutes() + 120);
-            aReturn.push(`Please pick it up at 123 Tidy St., Acton before ${d.toTimeString()}`);
+            aReturn.push(`Wings!`);
+          } else if (sInput.toLowerCase().startsWith('n')){
+            aReturn.push('Ok. Would you like anything else?');
           } else {
-            aReturn.push("Thanks for trying our reservation system");
-            aReturn.push("Maybe next time");
+            aReturn.push("Sorry we didn't quite get that.");
+            aReturn.push("Please refresh and try again.");
           }
           return aReturn;
         }
